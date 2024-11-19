@@ -164,18 +164,21 @@ const InicioScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               placeholder="Nombre del Producto"
+              placeholderTextColor="#aaa"
               value={nombre}
               onChangeText={setNombre}
             />
             <TextInput
               style={styles.input}
               placeholder="Descripción"
+              placeholderTextColor="#aaa"
               value={descripcion}
               onChangeText={setDescripcion}
             />
             <TextInput
               style={styles.input}
               placeholder="Cantidad"
+              placeholderTextColor="#aaa"
               value={cantidad}
               onChangeText={setCantidad}
               keyboardType="numeric"
@@ -183,12 +186,15 @@ const InicioScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               placeholder="Precio"
+              placeholderTextColor="#aaa"
               value={precio}
               onChangeText={setPrecio}
               keyboardType="numeric"
             />
 
-            <Button title="Seleccionar Imagen" onPress={pickImage} />
+            <TouchableOpacity style={styles.imagePickerButton} onPress={pickImage}>
+              <Text style={styles.imagePickerText}>Seleccionar Imagen</Text>
+            </TouchableOpacity>
 
             {imagen ? (
               <Image source={{ uri: imagen }} style={styles.selectedImage} />
@@ -197,8 +203,18 @@ const InicioScreen = ({ navigation }) => {
             )}
 
             <View style={styles.modalButtons}>
-              <Button title="Cancelar" onPress={() => setModalVisible(false)} />
-              <Button title="Agregar Producto" onPress={handleAddProducto} />
+              <TouchableOpacity
+                style={[styles.button, styles.cancelButton]}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.buttonText}>Cancelar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.addButton]}
+                onPress={handleAddProducto}
+              >
+                <Text style={styles.buttonText}>Agregar</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -274,6 +290,7 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "#333",
   },
   modalContainer: {
     flex: 1,
@@ -293,16 +310,22 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 20,
+    textAlign: "center",
+    color: "#007BFF",
   },
   input: {
-    borderBottomWidth: 1,
+    height: 50,
     borderColor: "#ccc",
-    marginBottom: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 6,
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    backgroundColor: "#f9f9f9",
+    fontSize: 16,
+    color: "#333",
   },
   selectedImage: {
     width: 100,
@@ -319,6 +342,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  button: {
+    flex: 1,
+    marginHorizontal: 5,
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  cancelButton: {
+    backgroundColor: "#FF6B6B",
+  },
+  addButton: {
+    backgroundColor: "#28A745",
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -333,6 +374,24 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#007BFF",
   },
+
+  imagePickerButton: {
+    backgroundColor: "#007BFF",
+    padding: 10,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  imagePickerText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+},
+imagePlaceholder: {
+  textAlign: "center",
+  color: "#888",
+  fontStyle: "italic",
+},
 });
 
 export default InicioScreen;

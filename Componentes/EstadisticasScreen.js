@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from "react-nati
 import { PieChart } from "react-native-chart-kit";
 import { db } from "../bd/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
-import * as Print from 'expo-print';
-import * as Sharing from 'expo-sharing';
+import * as Print from "expo-print";
+import * as Sharing from "expo-sharing";
 import { captureRef } from "react-native-view-shot";
 
 const EstadisticasScreen = () => {
@@ -17,12 +17,12 @@ const EstadisticasScreen = () => {
       const productsSnapshot = await getDocs(collection(db, "Productos"));
       const productData = productsSnapshot.docs.map((doc) => doc.data());
 
-      const chartData = productData.map((producto, index) => ({
+      const chartData = productData.map((producto) => ({
         name: producto.nombre,
         cantidad: parseInt(producto.cantidad, 10),
         color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
+        legendFontColor: "#333",
+        legendFontSize: 14,
       }));
 
       setData(chartData);
@@ -38,18 +38,15 @@ const EstadisticasScreen = () => {
 
   const generarPDF = async () => {
     try {
-      // Captura la imagen del gráfico en formato URI
       const uri = await captureRef(chartRef, {
         format: "png",
-        quality: 0.8
+        quality: 0.8,
       });
-  
-      // Crear una lista de los productos con sus cantidades
+
       const productosTexto = productos
         .map((producto) => `<li>${producto.nombre}: ${producto.cantidad}</li>`)
         .join("");
-  
-      // HTML para el PDF, con un solo título y lista de datos
+
       const html = `
         <!DOCTYPE html>
         <html lang="en">
@@ -74,18 +71,13 @@ const EstadisticasScreen = () => {
           </body>
         </html>
       `;
-  
-      // Generar el PDF a partir del HTML
+
       const { uri: pdfUri } = await Print.printToFileAsync({ html });
-      console.log("PDF generado en:", pdfUri);
-  
-      // Compartir el PDF generado
       await Sharing.shareAsync(pdfUri);
     } catch (error) {
       console.error("Error al generar el PDF:", error);
     }
   };
-  
 
   return (
     <View style={styles.container}>
@@ -97,9 +89,9 @@ const EstadisticasScreen = () => {
           height={250}
           chartConfig={{
             backgroundColor: "#ffffff",
-            backgroundGradientFrom: "#eff3ff",
-            backgroundGradientTo: "#efefef",
-            color: (opacity = 1) => `rgba(0, 0, 255, ${opacity})`,
+            backgroundGradientFrom: "#f4f6fc",
+            backgroundGradientTo: "#eff3ff",
+            color: (opacity = 1) => `rgba(52, 152, 219, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
           }}
           accessor={"cantidad"}
@@ -121,27 +113,36 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "#f7f9fc",
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
+    color: "#2c3e50",
     marginBottom: 20,
+    textAlign: "center",
   },
   chartContainer: {
     borderRadius: 16,
     overflow: "hidden",
-  },
-  button: {
-    backgroundColor: "#1e90ff",
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 8,
-    marginTop: 20,
+    backgroundColor: "#fff",
+    padding: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    backgroundColor: "#3498db",
+    paddingVertical: 14,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    marginTop: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
     elevation: 5,
   },
   buttonText: {
