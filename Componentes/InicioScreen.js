@@ -7,7 +7,7 @@ import * as FileSystem from 'expo-file-system';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-
+ 
 
 const InicioScreen = ({ navigation }) => {
   const [productos, setProductos] = useState([]);

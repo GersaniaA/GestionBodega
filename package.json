@@ -29,7 +29,9 @@
     "react-native-screens": "^4.1.0",
     "react-native-svg": "^15.8.0",
     "react-native-view-shot": "~4.0.0",
-    "react-native-web": "^0.19.13"
+    "react-native-web": "^0.19.13",
+    "react-dom": "18.3.1",
+    "@expo/metro-runtime": "~4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
